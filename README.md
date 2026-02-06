@@ -1,43 +1,126 @@
-Clinic Full System Backend
+🏥 Clinic Management System – Backend API
 
-This is a backend project for a clinic management system built with C# using ASP.NET Core Web API
+A clinic management backend system built with ASP.NET Core Web API (.NET 7), focusing on security, business rules, and clean code organization.
 
-Key Features
+✅ What I Built in This Project
 
-Full CRUD for users, doctors, patients, appointments, medical records, and payments
+Designed and implemented a full clinic management system
 
-JWT-based authentication with role-based access control (Admin, Doctor, Receptionist)
+Built all core modules:
 
-Payment tracking and audit logs
+Person
 
-Clear separation of layers: Data Access, Business Logic, and API
+Users
 
-DTOs for clean data transfer between layers
+Doctors
 
-Proper error handling with appropriate HTTP status codes
+Patients
 
-Why This Project
+Appointments
 
-Ideal for junior developers to showcase skills in API design and object-oriented programming
+Medical Records
 
-Demonstrates ability to build a real-world, secure, and scalable backend system
+Payments
 
-Tech Stack
+Payment Audit Logs
 
-C#
-.NET 7
+Implemented 3-Tier Architecture with a clear separation between:
+
+API Layer
+
+Business Logic Layer
+
+Data Access Layer
+
+Designed the database using SQL Server and Stored Procedures for complex queries and operations
+
+Used DTOs to control the data exposure and improve API performance
+
+🔄 Smart DTO Design
+
+Created multiple DTOs based on use case:
+
+Basic DTOs for standard CRUD operations
+
+Detailed DTOs using Joins in Stored Procedures
+
+Example:
+
+GetAllAppointments → returns basic appointment data
+
+GetAllAppointmentDetails → returns:
+
+Patient Name
+
+Doctor Name
+
+Symptoms
+
+Diagnosis
+(joined from Appointment, Doctor, Patient, Person, MedicalRecord)
+
+The same approach is applied to Payments and Payment Details
+
+🔐 Authentication & Authorization
+
+Implemented JWT Authentication
+
+Role-based access control:
+
+Admin: full system access
+
+Doctor: can view only their patients and medical records
+
+Receptionist: can add persons and patients, manage appointments
+
+Applied Ownership Checks to prevent unauthorized data access
+
+📊 Payment Audit Logging
+
+Tracks every modification to payments, including:
+
+Old value
+
+New value
+
+User who made the change
+
+Timestamp
+
+Ensures:
+
+Full traceability of changes
+
+Protection of financial data
+
+Increased reliability of the system
+
+🛠️ Tech Stack
+
+C# .NET 7
+
 ASP.NET Core Web API
+
+3-Tier Architecture
+
+SQL Server & Stored Procedures
+
 JWT Authentication
+
 BCrypt for password hashing
 
-How to Run
+Swagger (OpenAPI)
 
-Clone the project from GitHub
+🎯 Project Importance
 
-Open the project in Visual Studio or VS Code
+This project demonstrates my ability to:
 
-Make sure the JWT environment variable is set
+Build secure Back-End systems
 
-Build and run the project
+Apply real-world business rules
 
-The API can be accessed via Swagger or Postman
+Design databases using SQL and Stored Procedures
+
+Control data and permissions based on user roles
+
+Implement audit logging and data traceability
