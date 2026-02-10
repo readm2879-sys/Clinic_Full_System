@@ -1,126 +1,154 @@
-🏥 Clinic Management System – Backend API
+Clinic Management System – Backend API
+Overview
 
-A clinic management backend system built with ASP.NET Core Web API (.NET 7), focusing on security, business rules, and clean code organization.
+A Clinic Management System built using ASP.NET Core Web API and SQL Server.
+The system allows patients to register, book appointments online, and enables clinic staff to manage appointments, medical records, and payments.
 
-✅ What I Built in This Project
+The project focuses on real-world backend practices, including security, business rules, and clean architecture.
 
-Designed and implemented a full clinic management system
+Key Features
+User Management
 
-Built all core modules:
+Patient registration and login
 
-Person
+JWT-based authentication
 
-Users
+Role-based access:
 
-Doctors
+Patient
 
-Patients
+Reception
 
-Appointments
+Doctor
 
-Medical Records
+Admin
 
-Payments
-
-Payment Audit Logs
-
-Implemented 3-Tier Architecture with a clear separation between:
-
-API Layer
-
-Business Logic Layer
-
-Data Access Layer
-
-Designed the database using SQL Server and Stored Procedures for complex queries and operations
-
-Used DTOs to control the data exposure and improve API performance
-
-🔄 Smart DTO Design
-
-Created multiple DTOs based on use case:
-
-Basic DTOs for standard CRUD operations
-
-Detailed DTOs using Joins in Stored Procedures
-
-Example:
-
-GetAllAppointments → returns basic appointment data
-
-GetAllAppointmentDetails → returns:
-
-Patient Name
-
-Doctor Name
-
-Symptoms
-
-Diagnosis
-(joined from Appointment, Doctor, Patient, Person, MedicalRecord)
-
-The same approach is applied to Payments and Payment Details
-
-🔐 Authentication & Authorization
-
-Implemented JWT Authentication
-
-Role-based access control:
-
-Admin: full system access
-
-Doctor: can view only their patients and medical records
-
-Receptionist: can add persons and patients, manage appointments
-
-Applied Ownership Checks to prevent unauthorized data access
-
-📊 Payment Audit Logging
-
-Tracks every modification to payments, including:
-
-Old value
-
-New value
-
-User who made the change
-
-Timestamp
-
-Ensures:
-
-Full traceability of changes
-
-Protection of financial data
-
-Increased reliability of the system
-
-🛠️ Tech Stack
-
-C# .NET 7
-
-ASP.NET Core Web API
-
-3-Tier Architecture
-
-SQL Server & Stored Procedures
+Authentication & Authorization
 
 JWT Authentication
 
-BCrypt for password hashing
+Role-Based Authorization
 
-Swagger (OpenAPI)
+Policy-Based Authorization
 
-🎯 Project Importance
+Ownership Validation
 
-This project demonstrates my ability to:
+Patients can only access and manage their own appointments
 
-Build secure Back-End systems
+User identity is extracted from the JWT token to prevent unauthorized actions
 
-Apply real-world business rules
+Appointment System (Dynamic Scheduling)
 
-Design databases using SQL and Stored Procedures
+Patients can book appointments through the system:
 
-Control data and permissions based on user roles
+Select a doctor
 
-Implement audit logging and data traceability
+System returns available dates for the next two weeks
+
+Select a date
+
+System generates available time slots dynamically
+
+Already booked slots are automatically excluded
+
+Appointments can be created:
+
+By the patient (online)
+
+By the reception staff (internally)
+
+Payments
+
+Payment is created during appointment booking
+
+Appointment and Payment are saved using SQL Transaction
+
+PaymentsAudit table for tracking payment changes
+
+Medical Records
+
+Each appointment can be linked to a medical record
+
+Doctors can update patient medical data
+
+Database Tables
+
+Persons
+
+Users
+
+Patients
+
+Doctors
+
+Appointments
+
+MedicalRecords
+
+Payments
+
+PaymentsAudit
+
+Technologies Used
+
+ASP.NET Core Web API (.NET)
+
+SQL Server
+
+ADO.NET
+
+Stored Procedures
+
+JWT Authentication
+
+Role-Based & Policy-Based Authorization
+
+Transactions (SQL)
+
+3-Tier Architecture
+
+Security Highlights
+
+JWT token validation
+
+Role-based endpoint protection
+
+Ownership checks to prevent data access by other users
+
+Secure database operations using parameters
+
+Transaction handling to ensure data consistency
+
+Example Workflow (Patient Booking)
+
+Patient logs in
+
+Chooses a doctor
+
+Views available dates
+
+Selects a date
+
+Views available time slots
+
+Confirms booking
+
+System:
+
+Creates Payment
+
+Creates Appointment
+
+Returns booking details
+
+Project Goal
+
+This project was built to demonstrate:
+
+Real-world backend development skills
+
+Clean architecture and separation of concerns
+
+Secure API design
+
+Business logic implementation beyond basic CRUD
