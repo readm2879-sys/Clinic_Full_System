@@ -35,7 +35,7 @@ namespace SimbleClinic.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public ActionResult<AppointmentsDTO> GetMedicalRecordByID(int id)
+        public ActionResult<MedicalRecordDTO> GetMedicalRecordByID(int id)
         {
             var role = User.FindFirstValue(ClaimTypes.Role);
             var userid = User.FindFirstValue(ClaimTypes.NameIdentifier);

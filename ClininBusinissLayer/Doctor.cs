@@ -103,6 +103,12 @@ namespace ClininBusinissLayer
                     return false;
             }
         }
+
+        public static List<DoctorsViewDTO> GetDoctorsView()
+        {
+            return clsDoctorDataAccess.GetDoctorsView();
+        }
+
         public static int GetDoctorIDByUserID(int UserID)
         {
             return clsDoctorDataAccess.GetDoctorIDByUserID(UserID);

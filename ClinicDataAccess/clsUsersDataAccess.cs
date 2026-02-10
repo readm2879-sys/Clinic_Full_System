@@ -11,6 +11,20 @@ using System.Threading.Tasks;
 namespace ClinicDataAccess
 {
 
+
+    public class SignUpDTO
+    {
+        public string? Name { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
+        public string? Gendor { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? Email { get; set; }
+        public string? Address { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
+
+    }
+
     public class LoginRequest
     {
         public string UserName { get; set; }
@@ -116,7 +130,56 @@ namespace ClinicDataAccess
                 return null;
             }
 
-          public static int AddNewUser(UserDTO user)
+
+        public static int SignUP(SignUpDTO signUp)
+        {
+            if(string.IsNullOrWhiteSpace(signUp.Name) || 
+                string.IsNullOrWhiteSpace(signUp.Gendor) ||
+                string.IsNullOrWhiteSpace(signUp.PhoneNumber) ||
+                string.IsNullOrWhiteSpace(signUp.UserName) ||
+                string.IsNullOrWhiteSpace(signUp.Password) 
+
+                )
+            {
+                return -1;
+            }
+
+            string Passwordhash = BCrypt.Net.BCrypt.HashPassword(signUp.Password);
+
+            using SqlConnection conn = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            using SqlCommand cmd = new SqlCommand("sp_SignUpPatient", conn);
+            cmd.CommandType= CommandType.StoredProcedure;
+            cmd.Parameters.Add("@Name",SqlDbType.VarChar).Value = signUp.Name;
+            cmd.Parameters.Add("@DateOfBirth", SqlDbType.Date).Value = signUp.DateOfBirth.HasValue ? signUp.DateOfBirth.Value  : DBNull.Value;
+            cmd.Parameters.Add("@Gendor", SqlDbType.VarChar).Value = signUp.Gendor;
+            cmd.Parameters.Add("@PhoneNumber", SqlDbType.VarChar).Value = signUp.PhoneNumber;
+            if (string.IsNullOrWhiteSpace(signUp.Email))
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = DBNull.Value;
+            else
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = signUp.Email;
+
+
+            if (string.IsNullOrWhiteSpace(signUp.Address))
+                cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = DBNull.Value;
+            else
+                cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = signUp.Address;
+
+            cmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = signUp.UserName;
+
+            cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = Passwordhash;
+
+            conn.Open();
+
+            int userid = Convert.ToInt32(cmd.ExecuteScalar());
+            if (userid > 0)
+                return userid;
+            else
+                return -1;
+
+
+
+        }
+        public static int AddNewUser(UserDTO user)
           {
             int id = -1;
             if (string.IsNullOrEmpty(user.UserName) ||
@@ -256,6 +319,8 @@ namespace ClinicDataAccess
 
             return null;
         }
+
+
 
         public static bool DeleteUser(int id)
         {

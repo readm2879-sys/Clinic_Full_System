@@ -75,5 +75,23 @@ namespace SimbleClinic.Controllers
 
         }
 
+
+        [HttpPost("PatientSignUp")]
+        public IActionResult PatientSignUp([FromBody] SignUpDTO SignUpRequest)
+        {
+            int NewUserID = ClininBusinissLayer.User.SignUp(SignUpRequest);
+
+            if(NewUserID < 1)
+                return BadRequest();
+            
+
+
+
+            LoginRequest login = new LoginRequest(SignUpRequest.UserName, SignUpRequest.Password);
+            return Login(login);
+               
+        }
+
+
     }
 }

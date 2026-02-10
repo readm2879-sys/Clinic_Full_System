@@ -73,7 +73,6 @@ namespace ClininBusinissLayer
             return clsPaymentsDataAccess.UpdatePayment(DTO);
         }
        
-
         public static decimal GetTotalPaymentsForToday()
         {
             return clsPaymentsDataAccess.GetTotalPaymentsForToday();

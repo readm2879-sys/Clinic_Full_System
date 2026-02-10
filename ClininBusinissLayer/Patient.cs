@@ -31,6 +31,11 @@ namespace ClininBusinissLayer
             this.PersonID = patientDTO.PersonID;
         }
 
+        public static int GetPatientIDByUserID(int userid)
+        {
+            return ClinicDataAccess.clsPatientsDataAccess.GetPatientIDByUserID(userid);
+        }
+
         public static List<PatientDTO> GetAllPatient()
         {
             return ClinicDataAccess.clsPatientsDataAccess.GetAllPatients();

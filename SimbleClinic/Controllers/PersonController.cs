@@ -138,7 +138,7 @@ namespace SimbleClinic.Controllers
                 return NotFound($"Person with ID {id} not found. no rows deleted!");
         }
 
-
+       
 
     }
 }

@@ -13,6 +13,21 @@ using System.Threading.Tasks;
 namespace ClinicDataAccess
 {
 
+
+    public class DoctorsViewDTO
+    {
+        public int DoctorID { get; set; }
+        public string DoctorName { get; set; }
+
+        public string Specializtion {  get; set; }
+
+        public DoctorsViewDTO(int doctorID,string doctorName,string specialzation)
+        {
+            DoctorID = doctorID;
+            DoctorName = doctorName;
+            Specializtion = specialzation;
+        }
+    }
     public class DoctorDetailsDTO
     {
         public int DoctorID { get; set; }
@@ -45,7 +60,24 @@ namespace ClinicDataAccess
     public class clsDoctorDataAccess
     {
 
+        public static List<DoctorsViewDTO> GetDoctorsView()
+        {
+            string query = "select Doctors.DoctorID ,Persons.Name , Doctors.Specialization from Doctors join Persons on " +
+                "Doctors.PersonID = Persons.PersonID";
+            List<DoctorsViewDTO> list = new List<DoctorsViewDTO>();
+            using SqlConnection conn = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            using SqlCommand cmd = new SqlCommand(query, conn);
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
 
+            while (reader.Read())
+            {
+                list.Add(new DoctorsViewDTO((int)reader["DoctorID"], (string)reader["Name"], (string)reader["Specialization"]));
+            }
+
+
+            return list;
+        }
         public static List<DoctorDetailsDTO> GetDoctorsDetails()
         {
             List<DoctorDetailsDTO> list = new List<DoctorDetailsDTO>();
@@ -244,6 +276,7 @@ namespace ClinicDataAccess
             
 
         }
+
 
         public static bool DeleteDoctor(int doctorID)
         {

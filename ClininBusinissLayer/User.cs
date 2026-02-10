@@ -87,6 +87,12 @@ namespace ClininBusinissLayer
             return clsUsersDataAccess.DeleteUser(id);
         }
 
+
+        public static int SignUp(SignUpDTO spDTO)
+        {
+            return clsUsersDataAccess.SignUP(spDTO);
+        }
+
         public static bool IsUserExist(int id)
         {
             UserDTO? u = clsUsersDataAccess.GetUserByID(id);

@@ -15,19 +15,19 @@ namespace ClininBusinissLayer
         public int AppointmentID { get; set; }
         public int PatientID { get; set; }
         public int DoctorID { get; set; }
-        public DateTime AppointmentDateTime { get; set; }
+        public DateOnly Date { get; set; }
         public byte AppointmentStatus { get; set; }
         public int MedicalRecordID { get; set; }
         public int PaymentID { get; set; }
-
-        public AppointmentsDTO APDTO => new AppointmentsDTO(this.AppointmentID, this.PatientID, this.DoctorID, this.AppointmentDateTime, this.AppointmentStatus, this.MedicalRecordID, this.PaymentID);
+        public TimeSpan DetectionTime { get; set; }
+        public AppointmentsDTO APDTO => new AppointmentsDTO(this.AppointmentID, this.PatientID, this.DoctorID, this.Date, this.AppointmentStatus, this.MedicalRecordID, this.PaymentID,this.DetectionTime);
 
         public Appointment(AppointmentsDTO dto, enMode mode = enMode.AddNew)
         {
             this.AppointmentID = dto.AppointmentID;
             this.PatientID = dto.PatientID;
             this.DoctorID = dto.DoctorID;
-            this.AppointmentDateTime = dto.AppointmentDateTime;
+            this.Date = dto.Date;
             this.AppointmentStatus = dto.AppointmentStatus;
             this.MedicalRecordID = dto.MedicalRecordID;
             this.PaymentID = dto.PaymentID;
@@ -82,13 +82,18 @@ namespace ClininBusinissLayer
             return clsAppointmentsDataAccess.UpdateAppointment(this.APDTO);
         }
 
+        public static int RegisterAppointment(RegisterAppointmentDTO dto)
+        {
+            return clsAppointmentsDataAccess.RegisterAppointment(dto);
+        }
+
         public bool Save()
         {
             switch (Mode)
             {
                 case enMode.AddNew:
                     return AddNewAppointment();
-                    
+
                 case enMode.Update:
                     return UpdateAppointment();
             }

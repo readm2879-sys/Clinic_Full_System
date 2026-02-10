@@ -56,6 +56,24 @@ namespace ClinicDataAccess
                 return list;
         }
 
+        public static int GetPatientIDByUserID(int userid)
+        {
+            string query = "  select PatientID from Users join Persons on " +
+                " Users.PersonID = Persons.PersonID join Patients on " +
+                "  Patients.PersonID = Persons.PersonID where Users.UserID = @UserID";
+
+            using SqlConnection conn = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            using SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.Add("UserID",SqlDbType.Int).Value = userid;
+            conn.Open();
+            int PatientID = Convert.ToInt32( cmd.ExecuteScalar());
+
+            if (PatientID > 0)
+                return PatientID;
+            else
+                return -1;
+        }
+
         public static bool IsPatientExiestByPersonID(int personID)
         {
 

@@ -14,18 +14,19 @@ namespace SimbleClinic.Controllers
     {
 
 
-
-        [HttpGet("All",Name = "GetAllAppointments")]
+        [Authorize (Roles = "Admin,Doctor,Receptionist")]
+        [HttpGet("All", Name = "GetAllAppointments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IEnumerable<AppointmentsDTO>> GetAllAppointments()
         {
             List<AppointmentsDTO> list = ClininBusinissLayer.Appointment.GetAllAppointments();
-            if(list.Count == 0)
-            return NotFound("No Appointments Yet");
+            if (list.Count == 0)
+                return NotFound("No Appointments Yet");
             else
                 return Ok(list);
         }
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
         [HttpGet("{id:int}/Details", Name = "GetAppointmentDetailsByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -53,6 +54,7 @@ namespace SimbleClinic.Controllers
 
 
 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
         [HttpGet("{id:int}/LastAppointmentDetails", Name = "GetLastAPatientppointmentDetails")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -81,8 +83,9 @@ namespace SimbleClinic.Controllers
 
 
 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
-        [HttpGet("{id}",Name ="GetAppointmentByID")]
+        [HttpGet("{id}", Name = "GetAppointmentByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -98,6 +101,7 @@ namespace SimbleClinic.Controllers
                 return Ok(A.APDTO);
 
         }
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
         [HttpPost(Name = "AddNewAppointment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -120,12 +124,13 @@ namespace SimbleClinic.Controllers
         }
 
 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
-        [HttpPut("{id}",Name = "UpdateAppointment")]
+        [HttpPut("{id}", Name = "UpdateAppointment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<AppointmentsDTO> UpdateAppointment(int id,AppointmentsDTO dto)
+        public ActionResult<AppointmentsDTO> UpdateAppointment(int id, AppointmentsDTO dto)
         {
             if (id < 1)
                 return BadRequest("Bad Request");
@@ -135,21 +140,24 @@ namespace SimbleClinic.Controllers
                 return NotFound("Appointment is Not Found");
 
 
-            APP.AppointmentDateTime = dto.AppointmentDateTime;
+            APP.Date = dto.Date;
             APP.AppointmentStatus = dto.AppointmentStatus;
             APP.MedicalRecordID = dto.MedicalRecordID;
             APP.PaymentID = dto.PaymentID;
+            APP.DetectionTime = dto.DetectionTime;
 
             if (APP.Save())
                 return Ok(APP.APDTO);
             else
                 return BadRequest("Bad Request");
 
-            
+
 
         }
 
-        [HttpGet("AllDetails",Name = "GetAllAppointmentsDetails")]
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
+
+        [HttpGet("AllDetails", Name = "GetAllAppointmentsDetails")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
@@ -165,6 +173,8 @@ namespace SimbleClinic.Controllers
 
             return Ok(list);
         }
+
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
         [HttpGet("{id}/AllDetailsOnePatient", Name = "GetAllAppointmentsDetailsOnePatient")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -185,6 +195,7 @@ namespace SimbleClinic.Controllers
 
 
 
+        [Authorize(Roles = "Admin,Doctor,Receptionist")]
 
         [HttpGet("{id}/AllDetailsOneDoctor", Name = "GetAllAppointmentsDetailsOneDoctor")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -202,6 +213,7 @@ namespace SimbleClinic.Controllers
 
             return Ok(list);
         }
+
 
 
     }
